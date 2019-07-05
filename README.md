@@ -16,3 +16,4 @@ This repo contains the code which can generate the training data (CNN / Daily Ma
 ## Note
 The algorithm is a brute-force search, which can be slow in some cases. Therefore, running it in parallel is recommended (and it is what I did in my experiments).
 
+Recently, I modify the `find_oracle.py` a little using multiprocessing so that it can be easier to run it in parallel. Please check out `find_oracle_para.py`.

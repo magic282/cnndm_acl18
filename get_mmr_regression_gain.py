@@ -1,8 +1,9 @@
-from find_oracle import load_data
-from ast import literal_eval as make_tuple
+import sys
 import random
 import math
+from ast import literal_eval as make_tuple
 
+from find_oracle import load_data
 from PyRouge.Rouge.Rouge import Rouge
 from Document import Document
 
@@ -25,7 +26,8 @@ def load_upperbound(filepath):
 
 
 def get_mmr_order(oracle, doc):
-    scores = [(rouge.compute_rouge([doc.summary_sents], [[doc.doc_sents[idx]]])['rouge-2']['f'][0]) for idx in oracle[0]]
+    scores = [(rouge.compute_rouge([doc.summary_sents], [[doc.doc_sents[idx]]])['rouge-2']['f'][0]) for idx in
+              oracle[0]]
     comb = zip(oracle[0], scores)
     comb = sorted(comb, key=lambda x: -x[1])
     selected = []
@@ -92,9 +94,12 @@ def main(src_file, tgt_file, oracle_file, output_file):
 
 
 if __name__ == "__main__":
-    src_file = r"sample_data/train.txt.src.100"
-    tgt_file = r"sample_data/train.txt.tgt.100"
-    oracle_file = r"sample_data/train.rouge_bigram_F1.oracle.100"
-    output_file = r"sample_data/train.rouge_bigram_F1.oracle.100.regGain"
+    if len(sys.argv) == 5:
+        src_file, tgt_file, oracle_file, output_file = sys.argv[1:]
+    else:
+        src_file = r"sample_data/train.txt.src.100"
+        tgt_file = r"sample_data/train.txt.tgt.100"
+        oracle_file = r"sample_data/train.rouge_bigram_F1.oracle.100"
+        output_file = r"sample_data/train.rouge_bigram_F1.oracle.100.regGain"
 
     main(src_file, tgt_file, oracle_file, output_file)
